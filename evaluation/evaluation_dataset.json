@@ -1,0 +1,18 @@
+[
+  {
+    "question": "Quels événements gratuits sont disponibles à Paris ?",
+    "expected_answer": "Le système doit recommander des événements gratuits à Paris."
+  },
+  {
+    "question": "Quels concerts jazz sont disponibles ce week-end ?",
+    "expected_answer": "Le système doit recommander des concerts jazz disponibles ce week-end."
+  },
+  {
+    "question": "Quels événements en ligne sont disponibles ?",
+    "expected_answer": "Le système doit retourner les événements accessibles en ligne."
+  },
+  {
+    "question": "Quels événements culturels sont disponibles à Montreuil ?",
+    "expected_answer": "Le système doit recommander des événements localisés à Montreuil."
+  }
+]
