@@ -9,7 +9,7 @@ from langchain_core.prompts import ChatPromptTemplate
 
 class RAGService:
     def __init__(self):
-        load_dotenv(dotenv_path=r"C:\Users\anna\Documents\rag-openagenda\.env")
+        load_dotenv()
 
         self.api_key = os.getenv("MISTRAL_API_KEY", "").strip()
 
@@ -39,11 +39,20 @@ class RAGService:
         self.prompt = ChatPromptTemplate.from_template("""
 Tu es un chatbot intelligent spécialisé dans les événements culturels.
 
-Réponds uniquement à partir du contexte fourni.
-Ne crée jamais d'événement qui n'existe pas dans le contexte.
-
-Si l'information n'est pas disponible, réponds :
+Règles :
+- Réponds uniquement à partir du contexte fourni.
+- Ne crée jamais d'événement qui n'existe pas dans le contexte.
+- Si l'information n'est pas disponible, réponds :
 "Je ne sais pas d'après les données disponibles."
+- Présente les événements par ordre chronologique.
+- Propose maximum 3 événements.
+
+Pour chaque événement, indique :
+- le titre ;
+- la date ;
+- le lieu ;
+- la ville ;
+- une courte raison.
 
 Contexte :
 {context}
