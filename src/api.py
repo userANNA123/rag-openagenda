@@ -1,8 +1,10 @@
-import subprocess
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
 from src.rag_service import RAGService
+from src.data_loader import fetch_openagenda_events
+from src.clean_data import clean_events
+from src.build_faiss_index import build_faiss_index
 
 
 app = FastAPI(
@@ -51,9 +53,9 @@ def ask_question(request: QuestionRequest):
 @app.post("/rebuild")
 def rebuild_vectorstore():
     try:
-        subprocess.run(["python", "src/data_loader.py"], check=True)
-        subprocess.run(["python", "src/clean_data.py"], check=True)
-        subprocess.run(["python", "src/build_faiss_index.py"], check=True)
+        fetch_openagenda_events()
+        clean_count = clean_events()
+        index_count = build_faiss_index()
 
         global rag_service
         rag_service = RAGService()
@@ -66,7 +68,9 @@ def rebuild_vectorstore():
                 "Embeddings générés",
                 "Index FAISS reconstruit",
                 "index.faiss et index.pkl sauvegardés"
-            ]
+            ],
+            "events_cleaned": clean_count,
+            "documents_indexed": index_count
         }
 
     except Exception as e:
