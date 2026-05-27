@@ -17,7 +17,7 @@ def fetch_openagenda_events(city="Paris", months=6, rows=100):
         "dataset": "evenements-publics-openagenda",
         "rows": rows,
         "lang": "fr",
-        "q": city,
+        "q": "Paris 2026",
     }
 
     response = requests.get(url, params=params, timeout=30)
