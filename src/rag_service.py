@@ -27,7 +27,7 @@ class RAGService:
         )
 
         self.retriever = self.vectorstore.as_retriever(
-            search_kwargs={"k": 5}
+            search_kwargs={"k": 15}
         )
 
         self.llm = ChatMistralAI(
@@ -45,7 +45,8 @@ Règles :
 - Si l'information n'est pas disponible, réponds :
 "Je ne sais pas d'après les données disponibles."
 - Présente les événements par ordre chronologique.
-- Propose maximum 3 événements.
+- - Propose les événements pertinents trouvés dans le contexte.
+- Si la question porte sur le nombre d'événements, indique le nombre d'événements disponibles dans le contexte.
 
 Pour chaque événement, indique :
 - le titre ;
@@ -68,6 +69,9 @@ Réponse :
             return "La question ne peut pas être vide."
 
         docs = self.retriever.invoke(question)
+
+        print("Nombre de documents récupérés par le retriever :", len(docs))
+        print("Nombre total de vecteurs dans FAISS :", self.vectorstore.index.ntotal)
 
         if not docs:
             return "Je ne sais pas d'après les données disponibles."

@@ -17,8 +17,8 @@ def fetch_openagenda_events(city="Paris", months=6, rows=100):
         "dataset": "evenements-publics-openagenda",
         "rows": rows,
         "lang": "fr",
-        "q": "Paris 2026",
-    }
+        "q": f"{city} 2026",
+        }
 
     response = requests.get(url, params=params, timeout=30)
     response.raise_for_status()
@@ -48,7 +48,7 @@ def fetch_openagenda_events(city="Paris", months=6, rows=100):
 
     if filtered_records:
         data["records"] = filtered_records
-        print("Filtre temporel appliqué ✅")
+        print("Filtre temporel appliqué")
     else:
         data["records"] = records
         print("Aucun événement trouvé sur les 6 derniers mois.")
@@ -59,7 +59,7 @@ def fetch_openagenda_events(city="Paris", months=6, rows=100):
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
 
-    print("Data saved ✅")
+    print("Data saved")
     print("Nombre de records :", len(data.get("records", [])))
 
     return data
